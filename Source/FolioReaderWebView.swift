@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import WebKit
 
 /// The custom WebView used in each page
-open class FolioReaderWebView: UIWebView {
+open class FolioReaderWebView: WKWebView {
     var isColors = false
     var isShare = false
     var isOneWord = false
@@ -30,15 +31,15 @@ open class FolioReaderWebView: UIWebView {
         guard let readerContainer = readerContainer else { return FolioReader() }
         return readerContainer.folioReader
     }
-
-    override init(frame: CGRect) {
+    
+    override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         fatalError("use init(frame:readerConfig:book:) instead.")
     }
 
     init(frame: CGRect, readerContainer: FolioReaderContainer) {
         self.readerContainer = readerContainer
 
-        super.init(frame: frame)
+        super.init(frame: frame, configuration: WKWebViewConfiguration())
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -347,8 +348,13 @@ open class FolioReaderWebView: UIWebView {
     // MARK: - Java Script Bridge
     
     @discardableResult open func js(_ script: String) -> String? {
-        let callback = self.stringByEvaluatingJavaScript(from: script)
-        if callback!.isEmpty { return nil }
+        var callback = ""
+        self.evaluateJavaScript(script) { (result, error) in
+            if error != nil {
+                callback = result as! String
+            }
+        }
+        if callback.isEmpty { return nil }
         return callback
     }
     
@@ -366,13 +372,13 @@ open class FolioReaderWebView: UIWebView {
         switch self.readerConfig.scrollDirection {
         case .vertical, .defaultVertical, .horizontalWithVerticalContent:
             scrollView.isPagingEnabled = false
-            paginationMode = .unpaginated
+            //paginationMode = .unpaginated
             scrollView.bounces = true
             break
         case .horizontal:
             scrollView.isPagingEnabled = true
-            paginationMode = .leftToRight
-            paginationBreakingMode = .page
+            //paginationMode = .leftToRight
+            //paginationBreakingMode = .page
             scrollView.bounces = false
             break
         }
