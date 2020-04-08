@@ -499,7 +499,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         
         cell.webView?.js("setMediaOverlayStyleColors(\(mediaOverlayStyleColors))")
 
-        cell.loadHTMLString(html, baseURL: URL(fileURLWithPath: resource.fullHref.deletingLastPathComponent))
+        //let baseUrl = URL(fileURLWithPath: resource.fullHref.deletingLastPathComponent)
+        cell.loadHTMLString(html, baseURL:  Bundle.main.bundleURL)
         return cell
     }
 
