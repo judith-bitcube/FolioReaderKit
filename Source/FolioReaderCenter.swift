@@ -469,14 +469,14 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         let mediaOverlayStyleColors = "\"\(self.readerConfig.mediaOverlayColor.hexString(false))\", \"\(self.readerConfig.mediaOverlayColor.highlightColor().hexString(false))\""
 
         // Inject CSS
-        let jsFilePath = Bundle.frameworkBundle().path(forResource: "Bridge", ofType: "js")
-        let cssFilePath = Bundle.frameworkBundle().path(forResource: "Style", ofType: "css")
-        let cssTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"\(cssFilePath!)\">"
-        let jsTag = "<script type=\"text/javascript\" src=\"\(jsFilePath!)\"></script>" +
-        "<script type=\"text/javascript\">setMediaOverlayStyleColors(\(mediaOverlayStyleColors))</script>"
+        //let jsFilePath = Bundle.frameworkBundle().path(forResource: "Bridge", ofType: "js")
+        //let cssFilePath = Bundle.frameworkBundle().path(forResource: "Style", ofType: "css")
+        //let cssTag = "<link rel=\"stylesheet\" type=\"text/css\" href=\"\(cssFilePath!)\">"
+        //let jsTag = "<script type=\"text/javascript\" src=\"\(jsFilePath!)\"></script>" +
+        //"<script type=\"text/javascript\">setMediaOverlayStyleColors(\(mediaOverlayStyleColors))</script>"
 
-        let toInject = "\n\(cssTag)\n\(jsTag)\n</head>"
-        html = html.replacingOccurrences(of: "</head>", with: toInject)
+        //let toInject = "\n\(cssTag)\n\(jsTag)\n</head>"
+        //html = html.replacingOccurrences(of: "</head>", with: toInject)
 
         // Font class name
         var classes = folioReader.currentFont.cssIdentifier
@@ -496,6 +496,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         if let modifiedHtmlContent = self.delegate?.htmlContentForPage?(cell, htmlContent: html) {
             html = modifiedHtmlContent
         }
+        
+        cell.webView?.js("setMediaOverlayStyleColors(\(mediaOverlayStyleColors))")
 
         cell.loadHTMLString(html, baseURL: URL(fileURLWithPath: resource.fullHref.deletingLastPathComponent))
         return cell
