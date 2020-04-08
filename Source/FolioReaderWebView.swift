@@ -39,42 +39,42 @@ open class FolioReaderWebView: WKWebView {
     init(frame: CGRect, readerContainer: FolioReaderContainer) {
         self.readerContainer = readerContainer
         let config = WKWebViewConfiguration()
-        // Inject JS
-       var scriptFile = ""
-          if let filepath = Bundle.frameworkBundle().path(forResource: "Bridge", ofType: "js") {
-               do {
-                  scriptFile = try String(contentsOfFile: filepath)
-               } catch {
-                   scriptFile = ""
-               }
-           } else {
-              scriptFile = ""
-          }
-          let script = WKUserScript(source: scriptFile, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-          let contentController = WKUserContentController()
-          contentController.addUserScript(script)
-       
-       // Inject CSS
-       var cssFile = ""
-       if let cssFilePath = Bundle.frameworkBundle().path(forResource: "Style", ofType: "css") {
-           do {
-               cssFile = try String(contentsOfFile: cssFilePath)
-           } catch {
-               cssFile = ""
-           }
-       } else {
-           cssFile = ""
-       }
-       
-       let source = """
-       var style = document.createElement('style');
-       style.innerHTML = '\(cssFile)';
-       document.head.appendChild(style);
-       """
-       
-       let cssScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-       contentController.addUserScript(cssScript)
-       config.userContentController = contentController
+//        // Inject JS
+//       var scriptFile = ""
+//          if let filepath = Bundle.frameworkBundle().path(forResource: "Bridge", ofType: "js") {
+//               do {
+//                  scriptFile = try String(contentsOfFile: filepath)
+//               } catch {
+//                   scriptFile = ""
+//               }
+//           } else {
+//              scriptFile = ""
+//          }
+//          let script = WKUserScript(source: scriptFile, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+//          let contentController = WKUserContentController()
+//          contentController.addUserScript(script)
+//       
+//       // Inject CSS
+//       var cssFile = ""
+//       if let cssFilePath = Bundle.frameworkBundle().path(forResource: "Style", ofType: "css") {
+//           do {
+//               cssFile = try String(contentsOfFile: cssFilePath)
+//           } catch {
+//               cssFile = ""
+//           }
+//       } else {
+//           cssFile = ""
+//       }
+//       
+//       let source = """
+//       var style = document.createElement('style');
+//       style.innerHTML = '\(cssFile)';
+//       document.head.appendChild(style);
+//       """
+//       
+//       let cssScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+//       contentController.addUserScript(cssScript)
+//       config.userContentController = contentController
        
         super.init(frame: frame, configuration: config)
     }
