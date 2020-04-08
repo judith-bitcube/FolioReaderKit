@@ -51,7 +51,7 @@ open class FolioReaderWebView: WKWebView {
            } else {
               scriptFile = ""
           }
-          let script = WKUserScript(source: scriptFile, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+          let script = WKUserScript(source: scriptFile, injectionTime: .atDocumentStart, forMainFrameOnly: true)
           let contentController = WKUserContentController()
           contentController.addUserScript(script)
        
@@ -73,7 +73,7 @@ open class FolioReaderWebView: WKWebView {
        document.head.appendChild(style);
        """
        
-       let cssScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+       let cssScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
        contentController.addUserScript(cssScript)
        config.userContentController = contentController
        
