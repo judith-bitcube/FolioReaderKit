@@ -38,8 +38,22 @@ open class FolioReaderWebView: WKWebView {
 
     init(frame: CGRect, readerContainer: FolioReaderContainer) {
         self.readerContainer = readerContainer
-
-        super.init(frame: frame, configuration: WKWebViewConfiguration())
+        let config = WKWebViewConfiguration()
+        var scriptFile = ""
+        if let filepath = Bundle.frameworkBundle().path(forResource: "Bridge", ofType: "js") {
+             do {
+                scriptFile = try String(contentsOfFile: filepath)
+             } catch {
+                 scriptFile = ""
+             }
+         } else {
+            scriptFile = ""
+        }
+        let script = WKUserScript(source: scriptFile, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        let contentController = WKUserContentController()
+        contentController.addUserScript(script)
+        config.userContentController = contentController
+        super.init(frame: frame, configuration: config)
     }
 
     required public init?(coder aDecoder: NSCoder) {
