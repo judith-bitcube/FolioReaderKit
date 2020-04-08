@@ -362,13 +362,15 @@ open class FolioReaderWebView: WKWebView {
     // MARK: - Java Script Bridge
     
     @discardableResult open func js(_ script: String) -> String? {
-        var callback = ""
-        self.evaluateJavaScript(script) { (result, error) in
+        var callback: String?
+        if !script.isEmpty {
+            self.evaluateJavaScript(script) { (result, error) in
             if error == nil {
-                callback = result as! String
+                callback = result as? String
             }
         }
-        if callback.isEmpty { return nil }
+        }
+        if (callback ?? "").isEmpty { return nil }
         return callback
     }
     
