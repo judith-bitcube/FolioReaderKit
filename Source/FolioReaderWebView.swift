@@ -364,7 +364,7 @@ open class FolioReaderWebView: WKWebView {
     @discardableResult open func js(_ script: String) -> String? {
         var callback = ""
         self.evaluateJavaScript(script) { (result, error) in
-            if error != nil {
+            if error == nil {
                 callback = result as! String
             }
         }

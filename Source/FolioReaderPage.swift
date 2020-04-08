@@ -515,7 +515,7 @@ open class FolioReaderPage: UICollectionViewCell, WKUIDelegate, UIGestureRecogni
             let script = "document.documentElement.offsetHeight"
             var contentHeight: Double = 0
             webView.evaluateJavaScript(script) { (result, error) in
-                if error != nil {
+                if error == nil {
                     contentHeight = result as! Double
                 }
             }
